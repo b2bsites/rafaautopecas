@@ -1,1 +1,663 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Autopeças Rafa — Cuidando de quem te move</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --asphalt:#1c1b1a;
+    --asphalt-2:#26241f;
+    --paper:#f1ede4;
+    --paper-2:#e8e1d2;
+    --yellow:#f2b705;
+    --rust:#c4491d;
+    --steel:#6b6862;
+    --ink:#1c1b1a;
+    --radius:2px;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.01ms !important; transition-duration:0.01ms !important;}
+  }
+  h1,h2,h3,.stencil{
+    font-family:'Oswald',sans-serif;
+    text-transform:uppercase;
+    letter-spacing:0.02em;
+  }
+  .mono{font-family:'Space Mono',monospace;}
+  a{color:inherit; text-decoration:none;}
+  .wrap{max-width:1120px; margin:0 auto; padding:0 24px;}
 
+  /* ---------- top bar ---------- */
+  .topbar{
+    background:var(--asphalt);
+    color:var(--paper);
+    font-family:'Space Mono',monospace;
+    font-size:12px;
+    letter-spacing:0.04em;
+  }
+  .topbar .wrap{
+    display:flex; justify-content:space-between; align-items:center;
+    padding-top:8px; padding-bottom:8px;
+    flex-wrap:wrap; gap:6px;
+  }
+  .topbar span{opacity:0.85;}
+  .topbar .hazard{color:var(--yellow);}
+
+  /* ---------- header ---------- */
+  header{
+    background:var(--asphalt);
+    color:var(--paper);
+    border-bottom:6px solid var(--yellow);
+  }
+  nav.wrap{
+    display:flex; align-items:center; justify-content:space-between;
+    padding-top:18px; padding-bottom:18px;
+  }
+  .logo{
+    display:flex; align-items:center; gap:12px;
+  }
+  .logo-mark{
+    width:42px; height:42px;
+    background:var(--yellow);
+    border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    color:var(--asphalt);
+    font-family:'Oswald',sans-serif;
+    font-weight:700;
+    font-size:18px;
+  }
+  .logo-text{
+    font-family:'Oswald',sans-serif;
+    font-size:18px;
+    font-weight:700;
+    line-height:1.1;
+  }
+  .logo-text small{
+    display:block;
+    font-family:'Space Mono',monospace;
+    text-transform:none;
+    font-size:10.5px;
+    color:var(--yellow);
+    letter-spacing:0.03em;
+    margin-top:2px;
+  }
+  .nav-links{display:flex; gap:28px; font-size:14px; font-weight:500;}
+  .nav-links a{opacity:0.85; transition:opacity .15s;}
+  .nav-links a:hover{opacity:1; color:var(--yellow);}
+  @media (max-width:720px){ .nav-links{display:none;} }
+
+  .btn{
+    display:inline-flex; align-items:center; gap:8px;
+    padding:13px 22px;
+    font-family:'Inter',sans-serif;
+    font-weight:700;
+    font-size:14.5px;
+    border-radius:var(--radius);
+    border:2px solid transparent;
+    cursor:pointer;
+    transition:transform .12s ease, box-shadow .12s ease;
+  }
+  .btn:active{transform:translateY(1px);}
+  .btn:focus-visible{outline:3px solid var(--rust); outline-offset:2px;}
+  .btn-yellow{
+    background:var(--yellow); color:var(--asphalt);
+    box-shadow:4px 4px 0 var(--rust);
+  }
+  .btn-yellow:hover{box-shadow:6px 6px 0 var(--rust); transform:translate(-2px,-2px);}
+  .btn-outline{
+    background:transparent; border-color:var(--paper); color:var(--paper);
+  }
+  .btn-outline:hover{background:var(--paper); color:var(--asphalt);}
+  .btn-rust{
+    background:var(--rust); color:var(--paper);
+    box-shadow:4px 4px 0 var(--asphalt);
+  }
+  .btn-rust:hover{box-shadow:6px 6px 0 var(--asphalt); transform:translate(-2px,-2px);}
+
+  /* ---------- hero ---------- */
+  .hero{
+    background:
+      repeating-linear-gradient(135deg, rgba(242,183,5,0.05) 0 2px, transparent 2px 34px),
+      var(--asphalt);
+    color:var(--paper);
+    padding:76px 0 92px;
+    position:relative;
+  }
+  .hero .wrap{display:grid; grid-template-columns:1.15fr 0.85fr; gap:48px; align-items:center;}
+  @media (max-width:860px){ .hero .wrap{grid-template-columns:1fr;} }
+
+  .eyebrow-tag{
+    display:inline-flex; align-items:center; gap:8px;
+    background:var(--asphalt-2);
+    border:1px dashed var(--yellow);
+    color:var(--yellow);
+    font-family:'Space Mono',monospace;
+    font-size:12px;
+    padding:6px 12px;
+    border-radius:20px;
+    margin-bottom:22px;
+  }
+  .hero h1{
+    font-size:clamp(38px,5.4vw,60px);
+    line-height:1.04;
+    margin-bottom:20px;
+  }
+  .hero h1 .accent{color:var(--yellow);}
+  .hero p.lead{
+    font-size:17px;
+    color:#d8d3c6;
+    max-width:480px;
+    margin-bottom:32px;
+    line-height:1.6;
+  }
+  .hero-ctas{display:flex; gap:14px; flex-wrap:wrap;}
+
+  .hero-stats{
+    display:flex; gap:28px;
+    margin-top:40px;
+    flex-wrap:wrap;
+  }
+  .hero-stat .num{font-family:'Oswald',sans-serif; font-size:26px; color:var(--yellow); font-weight:700;}
+  .hero-stat .label{font-family:'Space Mono',monospace; font-size:11px; color:#a9a49a; letter-spacing:0.03em;}
+
+  /* hero side plate */
+  .plate{
+    background:var(--paper);
+    color:var(--ink);
+    border-radius:4px;
+    padding:28px 26px;
+    box-shadow:10px 10px 0 rgba(242,183,5,0.18);
+    border:1px solid rgba(0,0,0,0.06);
+  }
+  .plate-head{
+    display:flex; justify-content:space-between; align-items:center;
+    border-bottom:2px solid var(--asphalt);
+    padding-bottom:10px; margin-bottom:16px;
+  }
+  .plate-head span{font-family:'Space Mono',monospace; font-size:11px; letter-spacing:0.05em; color:var(--steel);}
+  .plate-item{
+    display:flex; align-items:center; gap:12px;
+    padding:11px 0;
+    border-bottom:1px solid #ddd6c4;
+  }
+  .plate-item:last-child{border-bottom:none;}
+  .plate-icon{
+    width:34px; height:34px; flex:none;
+    background:var(--asphalt); color:var(--yellow);
+    border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    font-size:15px;
+  }
+  .plate-item strong{display:block; font-size:14.5px;}
+  .plate-item small{color:var(--steel); font-size:12.5px;}
+
+  /* ---------- section basics ---------- */
+  section{padding:88px 0;}
+  .section-head{max-width:600px; margin-bottom:48px;}
+  .kicker{
+    font-family:'Space Mono',monospace;
+    font-size:12px; letter-spacing:0.08em;
+    color:var(--rust); font-weight:700;
+    margin-bottom:10px;
+    display:flex; align-items:center; gap:8px;
+  }
+  .kicker::before{content:''; width:22px; height:2px; background:var(--rust); display:inline-block;}
+  .section-head h2{font-size:clamp(26px,3.6vw,36px); line-height:1.15; margin-bottom:12px;}
+  .section-head p{color:var(--steel); font-size:15.5px; line-height:1.6;}
+
+  /* ---------- value props (tag cards) ---------- */
+  .tags-grid{
+    display:grid; grid-template-columns:repeat(3,1fr); gap:20px;
+  }
+  @media (max-width:860px){ .tags-grid{grid-template-columns:1fr;} }
+  .tag-card{
+    background:var(--paper-2);
+    border:1px solid #d9d0b8;
+    border-radius:var(--radius);
+    padding:26px 24px 24px;
+    position:relative;
+    transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .tag-card:hover{transform:translateY(-4px); box-shadow:0 10px 0 rgba(0,0,0,0.05);}
+  .tag-card::before{
+    content:'';
+    position:absolute; top:18px; right:18px;
+    width:9px; height:9px; border-radius:50%;
+    background:var(--asphalt);
+    box-shadow:0 0 0 2px var(--paper-2), 0 0 0 3px var(--asphalt);
+  }
+  .tag-card .ic{
+    width:46px; height:46px;
+    background:var(--asphalt);
+    color:var(--yellow);
+    border-radius:8px;
+    display:flex; align-items:center; justify-content:center;
+    font-size:21px;
+    margin-bottom:18px;
+  }
+  .tag-card h3{font-size:17px; margin-bottom:8px; letter-spacing:0.01em;}
+  .tag-card p{font-size:14px; color:var(--steel); line-height:1.55;}
+
+  /* ---------- process (real sequence) ---------- */
+  .process{background:var(--asphalt); color:var(--paper);}
+  .process .section-head p{color:#c9c3b5;}
+  .process .kicker{color:var(--yellow);}
+  .process .kicker::before{background:var(--yellow);}
+  .steps{
+    display:grid; grid-template-columns:repeat(3,1fr); gap:0;
+    position:relative;
+  }
+  @media (max-width:860px){ .steps{grid-template-columns:1fr; gap:28px;} }
+  .step{
+    padding:0 24px 0 0;
+    position:relative;
+  }
+  .step:not(:last-child)::after{
+    content:'';
+    position:absolute; top:26px; right:0;
+    width:1px; height:calc(100% - 26px);
+    background:repeating-linear-gradient(to bottom, #55514a 0 6px, transparent 6px 12px);
+  }
+  @media (max-width:860px){ .step:not(:last-child)::after{display:none;} }
+  .step-num{
+    font-family:'Oswald',sans-serif; font-weight:700;
+    font-size:44px; color:var(--yellow);
+    line-height:1; margin-bottom:14px;
+  }
+  .step h3{font-size:17px; margin-bottom:8px;}
+  .step p{font-size:14px; color:#b7b1a3; line-height:1.6; max-width:280px;}
+
+  /* ---------- categories ---------- */
+  .cat-grid{
+    display:grid; grid-template-columns:repeat(4,1fr); gap:14px;
+  }
+  @media (max-width:760px){ .cat-grid{grid-template-columns:repeat(2,1fr);} }
+  .cat-tile{
+    background:var(--paper-2);
+    border:1px solid #d9d0b8;
+    border-radius:var(--radius);
+    padding:22px 16px;
+    text-align:center;
+    display:block;
+    cursor:pointer;
+    transition:background .15s ease, border-color .15s ease, transform .15s ease;
+  }
+  .cat-tile:hover{transform:translateY(-3px);}
+  .cat-tile:hover{background:var(--yellow); border-color:var(--yellow);}
+  .cat-tile .ic{font-size:26px; margin-bottom:10px; display:block;}
+  .cat-tile span{font-size:13.5px; font-weight:600;}
+
+  /* ---------- trust strip ---------- */
+  .trust{
+    background:var(--paper-2);
+    border-top:1px solid #d9d0b8;
+    border-bottom:1px solid #d9d0b8;
+    padding:26px 0;
+  }
+  .trust .wrap{
+    display:flex; justify-content:space-around; flex-wrap:wrap; gap:20px;
+    text-align:center;
+  }
+  .trust-item .num{font-family:'Oswald',sans-serif; font-size:28px; font-weight:700; color:var(--rust);}
+  .trust-item .lbl{font-family:'Space Mono',monospace; font-size:11.5px; color:var(--steel); letter-spacing:0.03em;}
+
+  /* ---------- receipt CTA (signature element) ---------- */
+  .receipt-section{
+    background:var(--asphalt);
+    padding:100px 0 110px;
+  }
+  .receipt{
+    max-width:420px; margin:0 auto;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Space Mono',monospace;
+    font-size:13px;
+    padding:32px 28px 28px;
+    position:relative;
+    box-shadow:0 20px 50px rgba(0,0,0,0.4);
+  }
+  .receipt::before, .receipt::after{
+    content:'';
+    position:absolute; left:0; right:0; height:14px;
+    background:
+      radial-gradient(circle at 8px 7px, transparent 7px, var(--asphalt) 7.5px) repeat-x;
+    background-size:20px 14px;
+  }
+  .receipt::before{top:-7px;}
+  .receipt::after{bottom:-7px; transform:rotate(180deg);}
+  .receipt h3{
+    font-family:'Oswald',sans-serif;
+    text-transform:uppercase;
+    font-size:20px;
+    text-align:center;
+    margin-bottom:4px;
+    letter-spacing:0.03em;
+  }
+  .receipt .sub{text-align:center; color:var(--steel); font-size:11.5px; margin-bottom:18px;}
+  .receipt hr{border:none; border-top:1px dashed #b9b19c; margin:16px 0;}
+  .receipt .line{display:flex; justify-content:space-between; padding:5px 0; font-size:12.5px;}
+  .receipt .line span:first-child{color:var(--steel);}
+  .receipt .cta-block{margin-top:20px; text-align:center;}
+  .receipt .btn{width:100%; justify-content:center; margin-bottom:10px;}
+  .receipt .stamp{
+    display:inline-block;
+    border:2px solid var(--rust);
+    color:var(--rust);
+    padding:4px 12px;
+    border-radius:4px;
+    font-family:'Oswald',sans-serif;
+    font-size:12px;
+    letter-spacing:0.06em;
+    transform:rotate(-4deg);
+    margin-top:14px;
+  }
+
+  /* ---------- FAQ ---------- */
+  .faq{max-width:760px; margin:0 auto;}
+  .faq-item{
+    border-bottom:1px solid #d9d0b8;
+    padding:20px 0;
+  }
+  .faq-item summary{
+    cursor:pointer;
+    font-weight:600;
+    font-size:15.5px;
+    list-style:none;
+    display:flex; justify-content:space-between; align-items:center;
+    gap:16px;
+  }
+  .faq-item summary::-webkit-details-marker{display:none;}
+  .faq-item summary::after{
+    content:'+';
+    font-family:'Oswald',sans-serif;
+    font-size:20px;
+    color:var(--rust);
+    flex:none;
+  }
+  .faq-item[open] summary::after{content:'–';}
+  .faq-item p{margin-top:12px; color:var(--steel); font-size:14.5px; line-height:1.6;}
+
+  /* ---------- final CTA ---------- */
+  .final-cta{
+    background:var(--yellow);
+    text-align:center;
+    padding:64px 0;
+  }
+  .final-cta h2{font-size:clamp(24px,3.4vw,32px); margin-bottom:14px;}
+  .final-cta p{color:#3a3222; margin-bottom:26px; font-size:15px;}
+  .final-cta .btn-rust{box-shadow:4px 4px 0 var(--asphalt);}
+
+  /* ---------- footer ---------- */
+  footer{
+    background:var(--asphalt);
+    color:#a9a49a;
+    padding:40px 0 26px;
+    font-size:13px;
+  }
+  footer .wrap{
+    display:flex; justify-content:space-between; align-items:flex-start;
+    flex-wrap:wrap; gap:24px;
+  }
+  footer .foot-brand{color:var(--paper); font-family:'Oswald',sans-serif; font-size:16px; margin-bottom:8px;}
+  footer a:hover{color:var(--yellow);}
+  .foot-bottom{
+    border-top:1px solid #3a382f;
+    margin-top:28px; padding-top:18px;
+    font-family:'Space Mono',monospace; font-size:11px;
+    display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px;
+    max-width:1120px; margin-left:auto; margin-right:auto; padding-left:24px; padding-right:24px;
+  }
+
+  /* whatsapp floating button */
+  .wa-float{
+    position:fixed; right:20px; bottom:20px;
+    width:58px; height:58px; border-radius:50%;
+    background:#25D366; color:#fff;
+    display:flex; align-items:center; justify-content:center;
+    font-size:26px;
+    box-shadow:0 8px 20px rgba(0,0,0,0.35);
+    z-index:50;
+    transition:transform .15s ease;
+  }
+  .wa-float:hover{transform:scale(1.07);}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="wrap">
+    <span class="hazard">⚠ ENTREGA GRÁTIS NA REGIÃO</span>
+    <span>☎️ (12) 3221-6818 &nbsp;·&nbsp; Seg–Sáb</span>
+  </div>
+</div>
+
+<header>
+  <nav class="wrap">
+    <div class="logo">
+      <div class="logo-mark">R</div>
+      <div class="logo-text">AUTOPEÇAS RAFA
+        <small>cuidando de quem te move</small>
+      </div>
+    </div>
+    <div class="nav-links">
+      <a href="#servicos">Serviços</a>
+      <a href="#categorias">Peças</a>
+      <a href="#como-funciona">Como funciona</a>
+      <a href="#faq">Dúvidas</a>
+    </div>
+    <a class="btn btn-outline" href="https://wa.me/551232216818" target="_blank" rel="noopener">Chamar no Zap</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <div>
+      <div class="eyebrow-tag">● LOJA ABERTA AGORA</div>
+      <h1>Cuidando de quem <span class="accent">te move</span>.</h1>
+      <p class="lead">Peças de qualidade, óleo trocado na hora e entrega grátis na sua casa ou oficina. É só chamar no WhatsApp e receber o que precisa sem sair de casa.</p>
+      <div class="hero-ctas">
+        <a class="btn btn-yellow" href="https://wa.me/551232216818?text=Ol%C3%A1!%20Preciso%20de%20uma%20pe%C3%A7a." target="_blank" rel="noopener">📲 Pedir peça no WhatsApp</a>
+        <a class="btn btn-outline" href="tel:+551232216818">☎️ (12) 3221-6818</a>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat"><div class="num">5,4 mil+</div><div class="label">CLIENTES NO INSTAGRAM</div></div>
+        <div class="hero-stat"><div class="num">609+</div><div class="label">PEÇAS E SERVIÇOS POSTADOS</div></div>
+        <div class="hero-stat"><div class="num">100%</div><div class="label">ENTREGA GRÁTIS NA REGIÃO</div></div>
+      </div>
+    </div>
+
+    <div class="plate">
+      <div class="plate-head">
+        <strong style="font-family:'Oswald',sans-serif; font-size:14px;">FICHA DA LOJA</strong>
+        <span>Nº 0033</span>
+      </div>
+      <div class="plate-item">
+        <div class="plate-icon">🔧</div>
+        <div><strong>Peças de qualidade</strong><small>Originais e paralelas com garantia</small></div>
+      </div>
+      <div class="plate-item">
+        <div class="plate-icon">🛵</div>
+        <div><strong>Entrega grátis</strong><small>Receba em casa ou na oficina</small></div>
+      </div>
+      <div class="plate-item">
+        <div class="plate-icon">🛢️</div>
+        <div><strong>Troca de óleo na loja</strong><small>Rápido, enquanto você espera</small></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="trust">
+  <div class="wrap">
+    <div class="trust-item"><div class="num">+5,4K</div><div class="lbl">SEGUIDORES</div></div>
+    <div class="trust-item"><div class="num">609</div><div class="lbl">POSTS DE PEÇAS</div></div>
+    <div class="trust-item"><div class="num">Grátis</div><div class="lbl">ENTREGA NA REGIÃO</div></div>
+    <div class="trust-item"><div class="num">Na hora</div><div class="lbl">TROCA DE ÓLEO</div></div>
+  </div>
+</div>
+
+<section id="servicos">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="kicker">O QUE VOCÊ ENCONTRA AQUI</div>
+      <h2>Tudo para o seu carro ou moto, num só lugar</h2>
+      <p>Da peça certa ao serviço rápido — sem enrolação, sem sair de casa se não precisar.</p>
+    </div>
+    <div class="tags-grid">
+      <div class="tag-card">
+        <div class="ic">🔩</div>
+        <h3>Peças de qualidade</h3>
+        <p>Linha para carros e motos, com procedência e garantia. Se não tiver na loja, a gente localiza para você.</p>
+      </div>
+      <div class="tag-card">
+        <div class="ic">🛵</div>
+        <h3>Entrega grátis</h3>
+        <p>Peça pelo WhatsApp e receba sem custo de entrega, direto na sua casa ou na oficina.</p>
+      </div>
+      <div class="tag-card">
+        <div class="ic">🛢️</div>
+        <h3>Troca de óleo na loja</h3>
+        <p>Chegou, trocou, saiu. Serviço rápido feito no balcão, sem precisar agendar com antecedência.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="process" id="como-funciona">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="kicker">COMO FUNCIONA</div>
+      <h2>Do pedido à peça na sua mão</h2>
+      <p>Três passos, a maior parte resolvida direto pelo WhatsApp.</p>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">01</div>
+        <h3>Manda a peça ou o problema</h3>
+        <p>Chama no WhatsApp e conta o que precisa — nome da peça, modelo do veículo ou até uma foto.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <h3>Confirma preço e prazo</h3>
+        <p>A equipe confirma disponibilidade, valor e se a entrega é na hora ou combinada.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <h3>Recebe ou retira</h3>
+        <p>Entrega grátis na região ou retirada na loja, com troca de óleo feita na hora se precisar.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="categorias">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="kicker">CATEGORIAS</div>
+      <h2>Procurando algo específico?</h2>
+      <p>Essas são as categorias mais pedidas — manda no WhatsApp que a gente confirma o estoque.</p>
+    </div>
+    <div class="cat-grid">
+      <a class="cat-tile" href="https://wa.me/551232216818?text=Oi%2C%20tudo%20bem%3F%2C%20gostaria%20de%20saber%20mais%20sobre%20os(%40)%20%22Baterias%22" target="_blank" rel="noopener"><span class="ic">🔋</span><span>Baterias</span></a>
+      <a class="cat-tile" href="https://wa.me/551232216818?text=Oi%2C%20tudo%20bem%3F%2C%20gostaria%20de%20saber%20mais%20sobre%20os(%40)%20%22Freios%22" target="_blank" rel="noopener"><span class="ic">🛑</span><span>Freios</span></a>
+      <a class="cat-tile" href="https://wa.me/551232216818?text=Oi%2C%20tudo%20bem%3F%2C%20gostaria%20de%20saber%20mais%20sobre%20os(%40)%20%22Filtros%22" target="_blank" rel="noopener"><span class="ic">🌀</span><span>Filtros</span></a>
+      <a class="cat-tile" href="https://wa.me/551232216818?text=Oi%2C%20tudo%20bem%3F%2C%20gostaria%20de%20saber%20mais%20sobre%20os(%40)%20%22%C3%93leo%20e%20lubrificantes%22" target="_blank" rel="noopener"><span class="ic">🛢️</span><span>Óleo e lubrificantes</span></a>
+      <a class="cat-tile" href="https://wa.me/551232216818?text=Oi%2C%20tudo%20bem%3F%2C%20gostaria%20de%20saber%20mais%20sobre%20os(%40)%20%22Suspens%C3%A3o%22" target="_blank" rel="noopener"><span class="ic">⚙️</span><span>Suspensão</span></a>
+      <a class="cat-tile" href="https://wa.me/551232216818?text=Oi%2C%20tudo%20bem%3F%2C%20gostaria%20de%20saber%20mais%20sobre%20os(%40)%20%22El%C3%A9trica%22" target="_blank" rel="noopener"><span class="ic">💡</span><span>Elétrica</span></a>
+      <a class="cat-tile" href="https://wa.me/551232216818?text=Oi%2C%20tudo%20bem%3F%2C%20gostaria%20de%20saber%20mais%20sobre%20os(%40)%20%22Pe%C3%A7as%20de%20moto%22" target="_blank" rel="noopener"><span class="ic">🏍️</span><span>Peças de moto</span></a>
+      <a class="cat-tile" href="https://wa.me/551232216818?text=Oi%2C%20tudo%20bem%3F%2C%20gostaria%20de%20saber%20mais%20sobre%20os(%40)%20%22Ferramentas%22" target="_blank" rel="noopener"><span class="ic">🔧</span><span>Ferramentas</span></a>
+    </div>
+  </div>
+</section>
+
+<section class="receipt-section">
+  <div class="receipt">
+    <h3>Autopeças Rafa</h3>
+    <div class="sub">Cuidando de quem te move</div>
+    <hr>
+    <div class="line"><span>Peças de qualidade</span><span>✔</span></div>
+    <div class="line"><span>Entrega grátis</span><span>✔</span></div>
+    <div class="line"><span>Troca de óleo na loja</span><span>✔</span></div>
+    <hr>
+    <div class="line"><span>Telefone / Zap</span><span>(12) 3221-6818</span></div>
+    <div class="line"><span>Horário</span><span>Seg–Sáb</span></div>
+    <div class="cta-block">
+      <a class="btn btn-rust" href="https://wa.me/551232216818?text=Ol%C3%A1!%20Vim%20pelo%20site%20e%20quero%20fazer%20um%20pedido." target="_blank" rel="noopener">✔ Fazer pedido agora</a>
+      <div class="stamp">CONFIRMADO</div>
+    </div>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="wrap">
+    <div class="section-head" style="margin-left:auto; margin-right:auto; text-align:center;">
+      <div class="kicker" style="justify-content:center;">DÚVIDAS FREQUENTES</div>
+      <h2>Antes de chamar no zap</h2>
+    </div>
+    <div class="faq">
+      <details class="faq-item" open>
+        <summary>A entrega é mesmo grátis?</summary>
+        <p>Sim, a entrega é gratuita para a região atendida pela loja. Confirme seu endereço no WhatsApp para validar o prazo.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Não sei o nome exato da peça, e agora?</summary>
+        <p>Sem problema. Manda o modelo, ano do veículo e, se puder, uma foto da peça ou do problema — a equipe te ajuda a identificar.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Dá para trocar o óleo na hora?</summary>
+        <p>Sim, a troca de óleo é feita no balcão da loja, sem necessidade de agendamento prévio.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Quais as formas de pagamento?</summary>
+        <p>Confirme com a equipe pelo WhatsApp — normalmente é possível pagar na entrega ou na retirada.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<section class="final-cta">
+  <div class="wrap">
+    <h2>Precisa de peça ou troca de óleo agora?</h2>
+    <p>Chama no WhatsApp e resolve sem sair de casa.</p>
+    <a class="btn btn-rust" href="https://wa.me/551232216818?text=Ol%C3%A1!%20Preciso%20de%20uma%20pe%C3%A7a." target="_blank" rel="noopener">📲 Chamar no WhatsApp</a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div>
+      <div class="foot-brand">AUTOPEÇAS RAFA</div>
+      <div>Cuidando de quem te move.</div>
+    </div>
+    <div>
+      <div style="color:#d8d3c6; margin-bottom:6px;">Contato</div>
+      <div><a href="tel:+551232216818">(12) 3221-6818</a></div>
+      <div><a href="https://www.instagram.com/rafa_auto_pecas33/" target="_blank" rel="noopener">@rafa_auto_pecas33</a></div>
+    </div>
+    <div>
+      <div style="color:#d8d3c6; margin-bottom:6px;">Horário</div>
+      <div>Segunda a sábado</div>
+    </div>
+  </div>
+  <div class="foot-bottom">
+    <span>© 2026 Autopeças Rafa</span>
+    <span>Feita com carinho para quem te move</span>
+  </div>
+</footer>
+
+<a class="wa-float" href="https://wa.me/551232216818?text=Ol%C3%A1!%20Preciso%20de%20uma%20pe%C3%A7a." target="_blank" rel="noopener" aria-label="Chamar no WhatsApp">💬</a>
+
+</body>
+</html>
